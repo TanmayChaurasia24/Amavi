@@ -1,0 +1,18 @@
+{
+  "toolNames": [
+    "create_invoice",
+    "delete_invoice",
+    "update_invoicing"
+  ],
+  "covered": [],
+  "notCovered": [
+    "createInvoice",
+    "getInvoice",
+    "listInvoices",
+    "updateInvoice",
+    "sendInvoice",
+    "cancelInvoice",
+    "sendReminder",
+    "enablePartialPayment"
+  ]
+}

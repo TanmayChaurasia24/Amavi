@@ -1,0 +1,113 @@
+{
+  "id": "INV2-ARZ8-TD3G-KP53-KUGX",
+  "status": "DRAFT",
+  "detail": {
+    "invoice_number": "INV-US-1792777625314",
+    "invoice_date": "2026-10-24",
+    "payment_term": {
+      "term_type": "DUE_ON_DATE_SPECIFIED",
+      "due_date": "2026-10-23"
+    },
+    "currency_code": "USD",
+    "note": "Due on receipt. Created by Settle verification script.",
+    "metadata": {
+      "create_time": "2026-10-24T04:15:49Z",
+      "last_update_time": "2026-10-24T04:15:49Z",
+      "created_by_flow": "REGULAR_SINGLE",
+      "recipient_view_url": "https://www.sandbox.paypal.com/invoice/p/#ARZ8TD3GKP53KUGX",
+      "invoicer_view_url": "https://www.sandbox.paypal.com/invoice/details/INV2-ARZ8-TD3G-KP53-KUGX",
+      "caller_type": "API_V2_INVOICE",
+      "spam_info": {}
+    }
+  },
+  "invoicer": {},
+  "primary_recipients": [
+    {
+      "billing_info": {
+        "email_address": "sb-ld6d853530407@personal.example.com",
+        "address": {
+          "address_line_1": "123 Main Street",
+          "admin_area_2": "San Jose",
+          "admin_area_1": "CA",
+          "postal_code": "95131",
+          "country_code": "US"
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "ITEM-0K538952HB9052212",
+      "name": "Consulting Services",
+      "description": "Phase 1 hackathon consulting work",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "1000.00"
+      },
+      "unit_of_measure": "HOURS"
+    }
+  ],
+  "configuration": {
+    "allow_tip": false,
+    "tax_calculated_after_discount": false,
+    "tax_inclusive": false
+  },
+  "amount": {
+    "currency_code": "USD",
+    "value": "1000.00",
+    "breakdown": {
+      "item_total": {
+        "currency_code": "USD",
+        "value": "1000.00"
+      },
+      "discount": {
+        "invoice_discount": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "item_discount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        }
+      },
+      "tax_total": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    }
+  },
+  "due_amount": {
+    "currency_code": "USD",
+    "value": "1000.00"
+  },
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-ARZ8-TD3G-KP53-KUGX",
+      "rel": "self",
+      "method": "GET"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-ARZ8-TD3G-KP53-KUGX/send",
+      "rel": "send",
+      "method": "POST"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-ARZ8-TD3G-KP53-KUGX",
+      "rel": "replace",
+      "method": "PUT"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-ARZ8-TD3G-KP53-KUGX",
+      "rel": "delete",
+      "method": "DELETE"
+    },
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-ARZ8-TD3G-KP53-KUGX/payments",
+      "rel": "record-payment",
+      "method": "POST"
+    }
+  ]
+}

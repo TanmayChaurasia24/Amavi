@@ -1,0 +1,5 @@
+{
+  "statusCode": 400,
+  "debugId": "f92825798ada8",
+  "body": "{\"name\":\"INVALID_REQUEST\",\"message\":\"Request is not well-formed, syntactically incorrect, or violates schema.\",\"debug_id\":\"f92825798ada8\",\"details\":[{\"field\":\"/configuration/partial_payment/allow_partial_payment\",\"value\":\"true\",\"location\":\"body\",\"description\":\"Partial payments are not available in your country.\"}],\"links\":[{\"href\":\"https://developer.paypal.com/docs/api/invoicing/#errors\",\"method\":\"GET\"}]}"
+}

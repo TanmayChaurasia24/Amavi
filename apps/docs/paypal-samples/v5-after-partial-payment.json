@@ -1,0 +1,113 @@
+{
+  "id": "INV2-Z3DH-WNKX-5SN8-HBPP",
+  "status": "PAID",
+  "detail": {
+    "invoice_number": "INV-US-1792777625316",
+    "invoice_date": "2026-10-24",
+    "payment_term": {
+      "term_type": "DUE_ON_DATE_SPECIFIED",
+      "due_date": "2026-11-23"
+    },
+    "currency_code": "USD",
+    "memo": "Replaces INV2-ARZ8-TD3G-KP53-KUGX (Instalment 1/2)",
+    "metadata": {
+      "create_time": "2026-10-24T04:16:07Z",
+      "last_update_time": "2026-10-24T04:55:51Z",
+      "first_sent_time": "2026-10-24T04:16:09Z",
+      "last_sent_time": "2026-10-24T04:16:09Z",
+      "created_by_flow": "REGULAR_SINGLE",
+      "recipient_view_url": "https://www.sandbox.paypal.com/invoice/p/#Z3DHWNKX5SN8HBPP",
+      "invoicer_view_url": "https://www.sandbox.paypal.com/invoice/details/INV2-Z3DH-WNKX-5SN8-HBPP",
+      "caller_type": "API_V2_INVOICE",
+      "spam_info": {}
+    }
+  },
+  "invoicer": {},
+  "primary_recipients": [
+    {
+      "billing_info": {
+        "email_address": "sb-ld6d853530407@personal.example.com",
+        "address": {
+          "address_line_1": "123 Main Street",
+          "admin_area_2": "San Jose",
+          "admin_area_1": "CA",
+          "postal_code": "95131",
+          "country_code": "US"
+        }
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "ITEM-5M8982693R985802U",
+      "name": "Consulting Services (Instalment 1 of 2)",
+      "description": "Agreed deposit payment. Total original: $1,000.00. Balance due in phase 2: $700.00",
+      "quantity": "1",
+      "unit_amount": {
+        "currency_code": "USD",
+        "value": "300.00"
+      },
+      "unit_of_measure": "HOURS"
+    }
+  ],
+  "configuration": {
+    "allow_tip": false,
+    "tax_calculated_after_discount": false,
+    "tax_inclusive": false
+  },
+  "amount": {
+    "currency_code": "USD",
+    "value": "300.00",
+    "breakdown": {
+      "item_total": {
+        "currency_code": "USD",
+        "value": "300.00"
+      },
+      "discount": {
+        "invoice_discount": {
+          "amount": {
+            "currency_code": "USD",
+            "value": "0.00"
+          }
+        },
+        "item_discount": {
+          "currency_code": "USD",
+          "value": "0.00"
+        }
+      },
+      "tax_total": {
+        "currency_code": "USD",
+        "value": "0.00"
+      }
+    }
+  },
+  "due_amount": {
+    "currency_code": "USD",
+    "value": "0.00"
+  },
+  "payments": {
+    "paid_amount": {
+      "currency_code": "USD",
+      "value": "300.00"
+    },
+    "transactions": [
+      {
+        "type": "PAYPAL",
+        "payment_id": "0A49277430839300J",
+        "amount": {
+          "currency_code": "USD",
+          "value": "300.00"
+        },
+        "payment_date": "2026-10-23",
+        "method": "PAYPAL"
+      }
+    ]
+  },
+  "links": [
+    {
+      "href": "https://api.sandbox.paypal.com/v2/invoicing/invoices/INV2-Z3DH-WNKX-5SN8-HBPP",
+      "rel": "self",
+      "method": "GET"
+    }
+  ]
+}
