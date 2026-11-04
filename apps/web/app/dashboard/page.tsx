@@ -174,18 +174,23 @@ export default function DashboardPage() {
       {
         headerName: "Client & Invoice",
         field: "paypalInvoiceId",
-        minWidth: 240,
+        minWidth: 260,
         flex: 1.4,
         cellRenderer: (params: ICellRendererParams<InvoiceRow>) => {
           const inv = params.data;
           if (!inv) return null;
+          const isEmailSameAsName = inv.client?.name === inv.client?.email;
+          const displayName = isEmailSameAsName
+            ? (inv.client?.email?.split("@")[0] ?? "Client")
+            : (inv.client?.name ?? "Direct Invoiced Client");
+
           return (
-            <div className="flex flex-col py-1">
-              <span className="font-semibold text-white text-xs tracking-tight">
-                {inv.client?.name ?? "Direct Invoiced Client"}
+            <div className="flex flex-col justify-center h-full py-1">
+              <span className="font-semibold text-white text-xs tracking-tight truncate max-w-[220px]">
+                {displayName}
               </span>
-              <div className="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono">
-                <span>{inv.paypalInvoiceId}</span>
+              <div className="flex items-center gap-1.5 text-[11px] text-zinc-400 font-mono mt-0.5">
+                <span className="text-blue-400 font-medium">{inv.paypalInvoiceId}</span>
                 {inv.client?.email && (
                   <>
                     <span>•</span>
@@ -266,18 +271,18 @@ export default function DashboardPage() {
           const daysOverdue = inv.risk?.daysOverdue ?? 0;
 
           return (
-            <div className="flex flex-col py-1">
+            <div className="flex flex-col justify-center h-full py-1">
               <span className="text-zinc-200 text-xs font-mono">
                 {inv.dueDate ?? "No due date"}
               </span>
               {inv.status === "PAID" ? (
-                <span className="text-[10px] text-emerald-400 font-medium">Settled</span>
+                <span className="text-[10px] text-emerald-400 font-medium mt-0.5">Settled</span>
               ) : daysOverdue > 0 ? (
-                <span className="text-[10px] text-rose-400 font-semibold">
+                <span className="text-[10px] text-rose-400 font-semibold mt-0.5">
                   {daysOverdue}d overdue
                 </span>
               ) : (
-                <span className="text-[10px] text-zinc-400">On schedule</span>
+                <span className="text-[10px] text-zinc-400 mt-0.5">On schedule</span>
               )}
             </div>
           );
@@ -378,10 +383,13 @@ export default function DashboardPage() {
           if (!inv) return null;
 
           return (
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 h-full">
               <button
-                onClick={() => handleOpenAudit(inv.id)}
-                className="px-2 py-1 rounded-md bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-medium flex items-center gap-1 transition-all"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleOpenAudit(inv.id);
+                }}
+                className="px-2.5 py-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 text-xs font-semibold flex items-center gap-1 transition-all"
                 title="Open autonomous agent audit trail"
               >
                 <Bot className="w-3.5 h-3.5" />
@@ -389,9 +397,12 @@ export default function DashboardPage() {
               </button>
 
               <button
-                onClick={() => handleTriggerReminder(inv.id)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTriggerReminder(inv.id);
+                }}
                 disabled={remindingId === inv.id}
-                className="px-2 py-1 rounded-md bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-medium flex items-center gap-1 transition-all disabled:opacity-50"
+                className="px-2.5 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold flex items-center gap-1 transition-all disabled:opacity-50"
                 title="Run agent now: write and dispatch PayPal reminder"
               >
                 <Zap className={`w-3.5 h-3.5 ${remindingId === inv.id ? "animate-spin text-amber-400" : "text-amber-400"}`} />
@@ -403,7 +414,8 @@ export default function DashboardPage() {
                   href={inv.recipientViewUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1 text-zinc-400 hover:text-zinc-200 transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-1.5 text-zinc-400 hover:text-zinc-200 transition-colors"
                   title="Open buyer PayPal view link"
                 >
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -604,10 +616,12 @@ export default function DashboardPage() {
 
       {/* AG Grid Table */}
       <div className="bg-[#11131a] border border-[#1f222e] rounded-xl p-1 shadow-xl">
-        <div className="h-[520px] w-full">
+        <div className="h-[640px] w-full">
           <div className="ag-theme-quartz-dark w-full h-full">
             <AgGridReact
               theme="legacy"
+              rowHeight={64}
+              headerHeight={46}
               rowData={filteredInvoices}
               columnDefs={columnDefs}
               onGridReady={onGridReady}

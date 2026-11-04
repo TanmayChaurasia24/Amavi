@@ -52,21 +52,31 @@ export async function reconcilePaymentWithPlans(
     const plan = instalment.plan;
     const parentInvoice = plan.invoice;
 
-    // Mark this leg as PAID
-    await db
-      .update(planInstalments)
-      .set({
-        status: "PAID",
-        paidAt: new Date(),
-      })
-      .where(eq(planInstalments.id, instalment.id));
+    const shouldMarkPaid = paidAmountCents === undefined || paidAmountCents > 0;
+
+    if (shouldMarkPaid) {
+      // Mark this leg as PAID
+      await db
+        .update(planInstalments)
+        .set({
+          status: "PAID",
+          paidAt: new Date(),
+        })
+        .where(eq(planInstalments.id, instalment.id));
+    }
 
     // Calculate sum of all paid legs in this plan
     let totalPaidFromLegs = 0;
     let allPaid = true;
 
     for (const leg of plan.instalments) {
-      if (leg.id === instalment.id || leg.status === "PAID") {
+      if (leg.id === instalment.id) {
+        if (shouldMarkPaid) {
+          totalPaidFromLegs += (paidAmountCents ?? leg.amountCents);
+        } else {
+          allPaid = false;
+        }
+      } else if (leg.status === "PAID") {
         totalPaidFromLegs += leg.amountCents;
       } else {
         allPaid = false;

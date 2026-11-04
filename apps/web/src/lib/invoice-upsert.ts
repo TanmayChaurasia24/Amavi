@@ -6,13 +6,15 @@ import { parseInvoiceSummary } from "./paypal/types";
 import { mapPaypalStatusToInternal } from "./paypal/status";
 import { getInvoice } from "./paypal/invoices";
 import type { PaypalInvoice } from "./paypal/types";
+import { reconcilePaymentWithPlans } from "./agent/reconcile";
 
 /**
  * Given a PayPal invoice object, upsert into our DB invoices table.
  * Returns the updated/inserted invoice row.
  */
 export async function upsertInvoiceFromPaypal(
-  paypalInvoice: PaypalInvoice
+  paypalInvoice: PaypalInvoice,
+  ownerId?: string | null
 ): Promise<typeof invoices.$inferSelect> {
   const summary = parseInvoiceSummary(paypalInvoice);
   const internalStatus = mapPaypalStatusToInternal(summary);
@@ -28,26 +30,71 @@ export async function upsertInvoiceFromPaypal(
     });
     if (existingClient) {
       clientId = existingClient.id;
+      // If client didn't have an owner, link it
+      if (ownerId && !existingClient.ownerId) {
+        await db
+          .update(clients)
+          .set({ ownerId })
+          .where(eq(clients.id, existingClient.id));
+      }
     } else {
       const recipientName =
         paypalInvoice.primary_recipients?.[0]?.billing_info?.name?.full_name ??
         recipientEmail;
       const [newClient] = await db
         .insert(clients)
-        .values({ name: recipientName, email: recipientEmail })
+        .values({
+          name: recipientName,
+          email: recipientEmail,
+          ownerId: ownerId ?? undefined,
+        })
         .returning();
       clientId = newClient?.id ?? null;
     }
   }
 
+  // Check if existing invoice has active payment plans with paid instalments
+  const existingInvoice = await db.query.invoices.findFirst({
+    where: eq(invoices.paypalInvoiceId, summary.paypalInvoiceId),
+    with: {
+      paymentPlans: {
+        with: {
+          instalments: true,
+        },
+      },
+    },
+  });
+
+  let planPaidCents = 0;
+  if (existingInvoice?.paymentPlans) {
+    for (const plan of existingInvoice.paymentPlans) {
+      for (const leg of plan.instalments) {
+        if (leg.status === "PAID") {
+          planPaidCents += leg.amountCents;
+        }
+      }
+    }
+  }
+
+  const effectiveAmountPaidCents = Math.max(summary.paidCents, planPaidCents);
+  let effectiveStatus = internalStatus;
+  if (effectiveAmountPaidCents >= summary.totalCents && summary.totalCents > 0) {
+    effectiveStatus = "PAID";
+  } else if (effectiveAmountPaidCents > 0) {
+    effectiveStatus = "PARTIALLY_PAID";
+  } else if (existingInvoice?.paymentPlans?.some((p) => p.status === "ACTIVE")) {
+    effectiveStatus = "IN_NEGOTIATION";
+  }
+
   const invoiceData: NewInvoice = {
     paypalInvoiceId: summary.paypalInvoiceId,
     clientId,
+    ownerId: ownerId ?? undefined,
     totalCents: summary.totalCents,
-    amountPaidCents: summary.paidCents,
+    amountPaidCents: effectiveAmountPaidCents,
     currency: summary.currency,
     dueDate: summary.dueDate ?? undefined,
-    status: internalStatus,
+    status: effectiveStatus,
     paypalStatus: summary.paypalStatus,
     recipientViewUrl: summary.payerViewUrl ?? undefined,
     updatedAt: new Date(),
@@ -68,16 +115,36 @@ export async function upsertInvoiceFromPaypal(
         status: invoiceData.status,
         paypalStatus: invoiceData.paypalStatus,
         recipientViewUrl: invoiceData.recipientViewUrl,
+        ...(ownerId ? { ownerId } : {}),
         updatedAt: new Date(),
       },
     })
     .returning();
 
   if (!result) throw new Error("Upsert returned no row");
+
+  // Reconcile if the invoice has payments or is marked paid
+  if (
+    result.status === "PAID" ||
+    result.status === "PARTIALLY_PAID" ||
+    result.amountPaidCents > 0 ||
+    summary.paidCents > 0
+  ) {
+    try {
+      await reconcilePaymentWithPlans(
+        summary.paypalInvoiceId,
+        summary.paidCents || result.amountPaidCents
+      );
+    } catch (reconcileErr) {
+      console.warn(
+        `[upsertInvoiceFromPaypal] Reconciliation notice for ${summary.paypalInvoiceId}:`,
+        reconcileErr instanceof Error ? reconcileErr.message : reconcileErr
+      );
+    }
+  }
+
   return result;
 }
-
-import { reconcilePaymentWithPlans } from "./agent/reconcile";
 
 /**
  * Fetch invoice from PayPal by ID, then upsert into our DB.
@@ -85,22 +152,9 @@ import { reconcilePaymentWithPlans } from "./agent/reconcile";
  * Use this from webhooks and the sync endpoint.
  */
 export async function fetchAndUpsertInvoice(
-  paypalInvoiceId: string
+  paypalInvoiceId: string,
+  ownerId?: string | null
 ): Promise<typeof invoices.$inferSelect> {
   const paypalInvoice = await getInvoice(paypalInvoiceId);
-  const row = await upsertInvoiceFromPaypal(paypalInvoice);
-
-  // If status is PAID or PARTIALLY_PAID, reconcile with any multi-installment plan
-  if (row.status === "PAID" || row.status === "PARTIALLY_PAID" || row.amountPaidCents > 0) {
-    try {
-      await reconcilePaymentWithPlans(paypalInvoiceId, row.amountPaidCents);
-    } catch (reconcileErr) {
-      console.warn(
-        `[fetchAndUpsertInvoice] Reconciliation notice for ${paypalInvoiceId}:`,
-        reconcileErr instanceof Error ? reconcileErr.message : reconcileErr
-      );
-    }
-  }
-
-  return row;
+  return await upsertInvoiceFromPaypal(paypalInvoice, ownerId);
 }
