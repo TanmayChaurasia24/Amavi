@@ -15,7 +15,7 @@ export default function HowItWorks() {
       icon: "📬",
       title: "Client replies to an overdue invoice",
       description:
-        "A client emails or messages back with a payment proposal. Settle reads the reply, classifies the intent — instalment request, promise to pay, dispute, or hardship — and extracts the offer.",
+        "A client emails or messages back with a payment proposal. Amavi reads the reply, classifies the intent — instalment request, promise to pay, dispute, or hardship — and extracts the offer.",
       color: "#06b6d4",
     },
     {
@@ -31,7 +31,7 @@ export default function HowItWorks() {
       icon: "💳",
       title: "PayPal plan created automatically",
       description:
-        "If the offer fits the rules, Settle enables partial payment on the invoice, sets the minimum deposit amount and new due date in PayPal, and sends the client a payment link — no manual work.",
+        "If the offer fits the rules, Amavi enables partial payment on the invoice, sets the minimum deposit amount and new due date in PayPal, and sends the client a payment link — no manual work.",
       color: "#10b981",
     },
     {
@@ -39,7 +39,7 @@ export default function HowItWorks() {
       icon: "⚡",
       title: "Webhooks reconcile payments in real time",
       description:
-        "PayPal fires events when the deposit arrives. Settle verifies the webhook signature, updates the instalment plan, and advances to the next instalment — or marks the invoice paid.",
+        "PayPal fires events when the deposit arrives. Amavi verifies the webhook signature, updates the instalment plan, and advances to the next instalment — or marks the invoice paid.",
       color: "#f59e0b",
     },
     {

@@ -60,7 +60,7 @@ export default function Navbar() {
             S
           </div>
           <span style={{ fontWeight: "700", fontSize: "18px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>
-            Settle
+            Amavi
           </span>
         </Link>
 

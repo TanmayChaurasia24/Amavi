@@ -1,5 +1,5 @@
 /**
- * Email templates for Settle outbound emails.
+ * Email templates for Amavi outbound emails.
  *
  * Security:
  * - All dynamic text (client names, reply text, reasons) is HTML-escaped.
@@ -56,7 +56,7 @@ export function renderAgentReplyEmail(data: {
 ${data.replyText}
 
 ${data.payLink ? `Pay or review your invoice online:\n${data.payLink}\n\n` : ""}Best regards,
-${data.ownerDisplayName} via Settle
+${data.ownerDisplayName} via Amavi
 
 ---
 To discuss or adjust terms, simply reply directly to this email.`;
@@ -96,7 +96,7 @@ To discuss or adjust terms, simply reply directly to this email.`;
       </p>
     </div>
     <div style="background-color: #f1f5f9; padding: 12px 24px; text-align: center; font-size: 12px; color: #64748b;">
-      Sent on behalf of ${escapedOwner} by Settle Collections Agent
+      Sent on behalf of ${escapedOwner} by Amavi Collections Agent
     </div>
   </div>
 </body>
@@ -176,7 +176,7 @@ ${data.ownerDisplayName}`;
       </p>
     </div>
     <div style="background-color: #f1f5f9; padding: 12px 24px; text-align: center; font-size: 12px; color: #64748b;">
-      Sent on behalf of ${escapedOwner} by Settle Collections Agent
+      Sent on behalf of ${escapedOwner} by Amavi Collections Agent
     </div>
   </div>
 </body>
@@ -209,11 +209,11 @@ An action on Invoice #${data.invoiceNumber} (${data.clientName}) requires your r
 Reason: ${data.reason}
 Summary: ${data.summary}
 
-Review and approve/reject this request in your Settle dashboard:
+Review and approve/reject this request in your Amavi dashboard:
 ${data.approvalsUrl}
 
 Best regards,
-Settle Autonomous Agent`;
+Amavi Autonomous Agent`;
 
   const html = `<!DOCTYPE html>
 <html>
@@ -248,7 +248,7 @@ Settle Autonomous Agent`;
       </p>
     </div>
     <div style="background-color: #f1f5f9; padding: 12px 24px; text-align: center; font-size: 12px; color: #64748b;">
-      Settle Guardrail &amp; Policy Enforcement System
+      Amavi Guardrail &amp; Policy Enforcement System
     </div>
   </div>
 </body>

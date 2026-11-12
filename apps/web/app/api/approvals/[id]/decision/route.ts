@@ -77,9 +77,16 @@ export async function POST(
     let executedPlan = null;
     if (normalizedStatus === "APPROVED" && item.invoiceId) {
       const payload = item.actionPayload as Record<string, unknown> | null;
+
+      // Priority order for deposit amount:
+      //   1. clientRequestedDepositCents — what the client actually asked for (new field)
+      //   2. requestedDepositCents — legacy field (may be guardrail-computed, kept for back-compat)
+      //   3. depositCents — older fallback field
+      // Human approval overrides ALL guardrails, so we always honour the client's request.
       const depositCents =
-        (payload?.depositCents as number | undefined) ??
-        (payload?.requestedDepositCents as number | undefined);
+        (payload?.clientRequestedDepositCents as number | undefined) ??
+        (payload?.requestedDepositCents as number | undefined) ??
+        (payload?.depositCents as number | undefined);
 
       if (depositCents && depositCents > 0) {
         const instalmentCount = (payload?.instalmentCount as number) ?? 2;
@@ -88,6 +95,7 @@ export async function POST(
           ((payload?.frequency as string) ?? "MONTHLY") as "WEEKLY" | "BIWEEKLY" | "MONTHLY";
 
         try {
+          // isOwnerOverride: true skips all guardrail re-checks inside createPaymentPlan
           executedPlan = await createPaymentPlan(item.invoiceId, {
             depositCents,
             instalmentCount,

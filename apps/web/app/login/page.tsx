@@ -167,7 +167,7 @@ export default function LoginPage() {
             letterSpacing: "-0.02em",
           }}
         >
-          Settle
+          Amavi
         </span>
       </Link>
 
@@ -680,7 +680,7 @@ export default function LoginPage() {
         >
           <ShieldCheck style={{ width: "15px", height: "15px", color: "#60a5fa", flexShrink: 0, marginTop: "2px" }} />
           <p style={{ fontSize: "11px", color: "#93c5fd", lineHeight: "1.4", margin: 0 }}>
-            <strong>Identity & Guardrails:</strong> Settle negotiates payments inside the safety limits you define. Passwords are securely hashed with scrypt, and sessions use secure HTTP-only cookies.
+            <strong>Identity & Guardrails:</strong> Amavi negotiates payments inside the safety limits you define. Passwords are securely hashed with scrypt, and sessions use secure HTTP-only cookies.
           </p>
         </div>
       </div>

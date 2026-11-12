@@ -127,7 +127,7 @@ export function DashboardNav() {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-bold tracking-tight text-white font-sans">
-                    Settle
+                    Amavi
                   </span>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30">
                     AI Agent

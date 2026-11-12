@@ -429,7 +429,7 @@ export async function sendPayPalReminder(
 
   const note =
     customNote ??
-    `Hi ${clientName}, friendly reminder from Settle that your balance of $${balance} is currently past due. Please review or settle your invoice at your earliest convenience, or let us know if you need to discuss payment options.`;
+    `Hi ${clientName}, friendly reminder from Amavi that your balance of $${balance} is currently past due. Please review or settle your invoice at your earliest convenience, or let us know if you need to discuss payment options.`;
 
   // Call real PayPal reminder endpoint if valid PayPal ID
   let paypalDispatched = false;
@@ -480,7 +480,7 @@ export async function sendPayPalReminder(
   await db.insert(messages).values({
     invoiceId,
     direction: "OUTBOUND",
-    sender: "Settle AI Agent",
+    sender: "Amavi AI Agent",
     content: note,
     intent: "OTHER",
     createdAt: new Date(),

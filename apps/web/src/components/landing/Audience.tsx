@@ -90,7 +90,7 @@ export default function Audience() {
                 backgroundClip: "text",
               }}
             >
-              Settle is for you
+              Amavi is for you
             </span>
           </h2>
           <p style={{ fontSize: "16px", color: "rgba(244,244,245,0.55)", maxWidth: "480px", margin: "0 auto", lineHeight: "1.6" }}>

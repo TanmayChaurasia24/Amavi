@@ -42,10 +42,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         headers: isAutoReply
           ? {
               "Auto-Submitted": "auto-replied",
-              "Message-ID": `<${emailId}@test.settle.app>`,
+              "Message-ID": `<${emailId}@test.amavi.app>`,
             }
           : {
-              "Message-ID": `<${emailId}@test.settle.app>`,
+              "Message-ID": `<${emailId}@test.amavi.app>`,
             },
       },
     };

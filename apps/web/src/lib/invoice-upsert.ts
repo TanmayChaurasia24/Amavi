@@ -76,7 +76,8 @@ export async function upsertInvoiceFromPaypal(
     }
   }
 
-  const effectiveAmountPaidCents = Math.max(summary.paidCents, planPaidCents);
+  const hasPlan = Boolean(existingInvoice?.paymentPlans?.length);
+  const effectiveAmountPaidCents = hasPlan ? planPaidCents : summary.paidCents;
   let effectiveStatus = internalStatus;
   if (effectiveAmountPaidCents >= summary.totalCents && summary.totalCents > 0) {
     effectiveStatus = "PAID";

@@ -50,7 +50,7 @@ export default async function DevPage() {
   return (
     <div style={{ fontFamily: "monospace", padding: "1rem", fontSize: "13px" }}>
       <h1 style={{ fontSize: "1.4rem", marginBottom: "0.5rem" }}>
-        🛠 Settle – Dev Status Page
+        🛠 Amavi – Dev Status Page
       </h1>
 
       <div style={{ marginBottom: "1rem", display: "flex", gap: "1rem" }}>

@@ -254,7 +254,7 @@ export async function classifyInboundIntent(
     const anthropic = createAnthropic({ apiKey: env.ANTHROPIC_API_KEY });
     const model = anthropic("claude-3-5-sonnet-20241022");
 
-    const systemPrompt = `You are an impartial, security-hardened Accounts Receivable AI Agent for Settle.
+    const systemPrompt = `You are an impartial, security-hardened Accounts Receivable AI Agent for Amavi.
 Your role is to classify inbound debtor messages into one of 5 intents and extract structured proposal terms.
 
 CRITICAL SECURITY RULES:

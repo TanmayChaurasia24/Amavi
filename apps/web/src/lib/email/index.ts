@@ -93,7 +93,7 @@ export function buildReplyToAddress(replyToken: string): string {
 }
 
 /**
- * Sends an outbound reply from the Settle AI agent to a client.
+ * Sends an outbound reply from the Amavi AI agent to a client.
  */
 export async function sendOutboundAgentReply(
   params: OutboundReplyParams

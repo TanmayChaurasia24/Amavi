@@ -273,7 +273,7 @@ export default function ProductPreview() {
                   <div key={c} style={{ width: "9px", height: "9px", borderRadius: "50%", background: c }} />
                 ))}
                 <span style={{ fontSize: "11px", color: "rgba(244,244,245,0.3)", marginLeft: "8px", fontFamily: "monospace" }}>
-                  settle.app/{tab.id}
+                  amavi.app/{tab.id}
                 </span>
               </div>
               {tab.preview}

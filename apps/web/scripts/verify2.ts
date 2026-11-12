@@ -143,7 +143,7 @@ async function main() {
           countryBlocked = true;
           console.log("\n  ⚠ PayPal regional restriction discovered:");
           console.log("    'Partial payments are not available in your country.'");
-          console.log("  → Demonstrating Settle's multi-invoice instalment architecture: creating Instalment 1 ($300.00)");
+          console.log("  → Demonstrating Amavi's multi-invoice instalment architecture: creating Instalment 1 ($300.00)");
 
           // Cancel the draft that failed and create a $300 deposit invoice
           try {
@@ -203,7 +203,7 @@ async function main() {
 - Fallback cancel + recreate used: **YES**
 - Replacement Invoice ID: \`${activeInvoiceId}\`
 - Regional Partial Payment Restriction: \`${countryBlocked ? "YES (Partial payments are not available in merchant country)" : "NO"}\`
-- Architecture Solution: \`${countryBlocked ? "Settle Multi-Invoice Instalment schedule ($300 deposit invoice issued)" : "Native allow_partial_payment enabled on draft"}\`
+- Architecture Solution: \`${countryBlocked ? "Amavi Multi-Invoice Instalment schedule ($300 deposit invoice issued)" : "Native allow_partial_payment enabled on draft"}\`
 - Result: PASS (fallback path verified)`
       );
 

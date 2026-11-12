@@ -3,7 +3,7 @@ import { z } from "zod";
 // ─── Consent ──────────────────────────────────────────────────────────────────
 export const CONSENT_VERSION = "2026-11-v1";
 export const CONSENT_TEXT =
-  "I authorize Settle to send payment reminders and replies to my clients on my behalf. " +
+  "I authorize Amavi to send payment reminders and replies to my clients on my behalf. " +
   "I understand replies are drafted by AI within the rules I set, that disputes and hardship cases are always sent to me, " +
   "and that this prototype runs in PayPal Sandbox (no real money moves).";
 
@@ -76,7 +76,7 @@ export function normalizeGuardrails(input: GuardrailsInput): Guardrails {
 
 /**
  * Returns a plain-English summary of the active guardrails.
- * Example: "Settle may offer up to 3 instalments over 60 days, with at least 30% upfront
+ * Example: "Amavi may offer up to 3 instalments over 60 days, with at least 30% upfront
  * and no discounts. Invoices over $500 need your approval. Disputes and hardship always come to you."
  */
 export function describeGuardrails(g: Guardrails | GuardrailsInput): string {
@@ -91,7 +91,7 @@ export function describeGuardrails(g: Guardrails | GuardrailsInput): string {
     : "no discounts";
 
   return (
-    `Settle may offer up to ${g.maxInstalments} instalment${g.maxInstalments !== 1 ? "s" : ""} ` +
+    `Amavi may offer up to ${g.maxInstalments} instalment${g.maxInstalments !== 1 ? "s" : ""} ` +
     `over ${g.maxPlanDays} days, with at least ${g.minDepositPct}% upfront and ${discountPart}. ` +
     `Invoices over ${thresholdDollars} need your approval. ` +
     `Disputes and hardship always come to you.`

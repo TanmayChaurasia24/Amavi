@@ -272,7 +272,7 @@ export default function Pricing() {
       </div>
 
       <p style={{ textAlign: "center", marginTop: "40px", fontSize: "12px", color: "rgba(244,244,245,0.3)" }}>
-        All plans include PayPal sandbox access for testing. Pricing is indicative — Settle is in public beta.
+        All plans include PayPal sandbox access for testing. Pricing is indicative — Amavi is in public beta.
       </p>
     </section>
   );

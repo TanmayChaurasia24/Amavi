@@ -661,7 +661,7 @@ export function AuditDrawer({ invoiceId, isOpen, onClose, onUpdate }: AuditDrawe
                       reply+{invoice.replyToken.slice(0, 8)}...
                     </code>
                   </div>
-                  <span className="text-[11px] text-zinc-500">Auto-routes to Settle AI</span>
+                  <span className="text-[11px] text-zinc-500">Auto-routes to Amavi AI</span>
                 </div>
               )}
 
@@ -677,7 +677,7 @@ export function AuditDrawer({ invoiceId, isOpen, onClose, onUpdate }: AuditDrawe
                     No messages or emails exchanged yet.
                   </p>
                   <p className="text-xs text-zinc-500 mt-1 max-w-sm mx-auto">
-                    When the client replies to this invoice via email or simulated inbox, the incoming message and Settle's automated response will appear here in real time.
+                    When the client replies to this invoice via email or simulated inbox, the incoming message and Amavi's automated response will appear here in real time.
                   </p>
                 </div>
               ) : (
@@ -697,7 +697,7 @@ export function AuditDrawer({ invoiceId, isOpen, onClose, onUpdate }: AuditDrawe
                         {/* Header Info */}
                         <div className="flex items-center gap-2 mb-1 px-1 text-[11px] text-zinc-400">
                           <span className="font-medium text-zinc-300">
-                            {isInbound ? (invoice?.client?.name ?? msg.sender) : "Settle AI Agent"}
+                            {isInbound ? (invoice?.client?.name ?? msg.sender) : "Amavi AI Agent"}
                           </span>
                           <span>&bull;</span>
                           <span className="uppercase text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">

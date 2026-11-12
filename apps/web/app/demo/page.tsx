@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Request Demo — Settle",
-  description: "Get early access to Settle and see it resolve overdue invoices live.",
+  title: "Request Demo — Amavi",
+  description: "Get early access to Amavi and see it resolve overdue invoices live.",
 };
 
 export default function DemoPage() {
@@ -37,7 +37,7 @@ export default function DemoPage() {
         >
           S
         </div>
-        <span style={{ fontWeight: "700", fontSize: "20px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>Settle</span>
+        <span style={{ fontWeight: "700", fontSize: "20px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>Amavi</span>
       </Link>
 
       <div
@@ -72,7 +72,7 @@ export default function DemoPage() {
         </div>
 
         <h1 style={{ fontSize: "28px", fontWeight: "800", color: "#f4f4f5", letterSpacing: "-0.02em", marginBottom: "10px", lineHeight: "1.2" }}>
-          Get early access to Settle
+          Get early access to Amavi
         </h1>
         <p style={{ fontSize: "14px", color: "rgba(244,244,245,0.5)", marginBottom: "36px", lineHeight: "1.6" }}>
           We&apos;re opening the beta to freelancers and small business owners. Leave your email and we&apos;ll reach out within 48 hours.

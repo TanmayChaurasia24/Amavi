@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Settle",
+  title: "Privacy Policy — Amavi",
 };
 
 function SimplePage({ title, children }: { title: string; children: React.ReactNode }) {
@@ -41,7 +41,7 @@ function SimplePage({ title, children }: { title: string; children: React.ReactN
           >
             S
           </div>
-          <span style={{ fontWeight: "700", fontSize: "16px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>Settle</span>
+          <span style={{ fontWeight: "700", fontSize: "16px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>Amavi</span>
         </Link>
         <span style={{ color: "rgba(244,244,245,0.2)", fontSize: "16px" }}>/</span>
         <span style={{ fontSize: "14px", color: "rgba(244,244,245,0.5)" }}>{title}</span>
@@ -50,7 +50,7 @@ function SimplePage({ title, children }: { title: string; children: React.ReactN
       <main style={{ maxWidth: "740px", margin: "0 auto", padding: "64px 24px" }}>
         <h1 style={{ fontSize: "36px", fontWeight: "800", letterSpacing: "-0.02em", marginBottom: "8px" }}>{title}</h1>
         <p style={{ fontSize: "13px", color: "rgba(244,244,245,0.35)", marginBottom: "48px" }}>
-          Last updated: October 2026 · Settle is a hackathon prototype. This document is for demonstration purposes only.
+          Last updated: October 2026 · Amavi is a hackathon prototype. This document is for demonstration purposes only.
         </p>
         {children}
       </main>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
     <SimplePage title="Privacy Policy">
       <Section title="What we collect">
         <P>
-          During the beta, Settle collects your PayPal OAuth token (stored server-side, never persisted to the database), invoice data fetched from PayPal&apos;s API, and webhook event payloads. We do not collect any personal financial information directly.
+          During the beta, Amavi collects your PayPal OAuth token (stored server-side, never persisted to the database), invoice data fetched from PayPal&apos;s API, and webhook event payloads. We do not collect any personal financial information directly.
         </P>
       </Section>
       <Section title="How we use your data">
@@ -90,7 +90,7 @@ export default function PrivacyPage() {
       </Section>
       <Section title="PayPal integration">
         <P>
-          Settle integrates with PayPal&apos;s sandbox REST API. Your PayPal Client ID and Secret are stored as environment variables and never written to any database. Webhook events are verified using PayPal&apos;s signature verification endpoint before processing.
+          Amavi integrates with PayPal&apos;s sandbox REST API. Your PayPal Client ID and Secret are stored as environment variables and never written to any database. Webhook events are verified using PayPal&apos;s signature verification endpoint before processing.
         </P>
       </Section>
       <Section title="Data retention">

@@ -14,7 +14,7 @@ import { calculateInvoiceRisk } from "../src/lib/risk";
 import { eq } from "drizzle-orm";
 
 async function seed() {
-  console.log("🌱 Starting Settle Phase 2 Database Seeding...");
+  console.log("🌱 Starting Amavi Phase 2 Database Seeding...");
 
   // 0. Seed legacy and demo owners
   console.log("  → Ensuring legacy and demo owners...");
@@ -23,11 +23,11 @@ async function seed() {
     .values({
       id: "owner-legacy",
       paypalPayerId: "legacy",
-      email: "legacy@settle.local",
+      email: "legacy@amavi.local",
       emailVerified: true,
       name: "Legacy Owner",
       displayName: "Legacy Owner",
-      notificationEmail: "legacy@settle.local",
+      notificationEmail: "legacy@amavi.local",
       timezone: "UTC",
       tone: "friendly",
       onboardingStep: 3,
@@ -41,11 +41,11 @@ async function seed() {
     .values({
       id: "owner-demo",
       paypalPayerId: "demo",
-      email: "demo@settle.local",
+      email: "demo@amavi.local",
       emailVerified: true,
       name: "Demo Owner",
       displayName: "Freelance Designer",
-      notificationEmail: "demo@settle.local",
+      notificationEmail: "demo@amavi.local",
       timezone: "America/New_York",
       tone: "friendly",
       onboardingStep: 3,

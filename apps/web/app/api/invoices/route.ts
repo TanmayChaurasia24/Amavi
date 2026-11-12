@@ -9,12 +9,16 @@ export async function GET() {
   try {
     const session = await getSession();
     const ownerId = session?.ownerId;
-    const whereClause = ownerId
+    const isDemo = Boolean(session?.isDemo || ownerId === "owner-demo" || ownerId === "owner-legacy");
+
+    // Real users see ONLY their own invoices. Only demo/legacy accounts see seeded demo data.
+    const whereClause = isDemo
       ? or(
-          eq(invoices.ownerId, ownerId),
-          eq(invoices.ownerId, "owner-legacy"),
-          isNull(invoices.ownerId)
+          eq(invoices.ownerId, ownerId ?? "owner-legacy"),
+          eq(invoices.ownerId, "owner-legacy")
         )
+      : ownerId
+      ? eq(invoices.ownerId, ownerId)
       : undefined;
 
     // 1. Identify all PayPal invoice IDs that are installment sub-invoices

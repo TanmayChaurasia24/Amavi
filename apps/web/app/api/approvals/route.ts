@@ -9,8 +9,13 @@ export async function GET() {
   try {
     const session = await getSession();
     const ownerId = session?.ownerId;
-    const whereClause = ownerId
-      ? or(eq(approvalQueue.ownerId, ownerId), eq(approvalQueue.ownerId, "owner-legacy"))
+    const isDemo = Boolean(session?.isDemo || ownerId === "owner-demo" || ownerId === "owner-legacy");
+
+    // Real users see ONLY their own approvals. Only demo/legacy accounts see seeded demo approvals.
+    const whereClause = isDemo
+      ? or(eq(approvalQueue.ownerId, ownerId ?? "owner-legacy"), eq(approvalQueue.ownerId, "owner-legacy"))
+      : ownerId
+      ? eq(approvalQueue.ownerId, ownerId)
       : undefined;
 
     const list = await db.query.approvalQueue.findMany({

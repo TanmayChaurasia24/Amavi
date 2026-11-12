@@ -83,7 +83,7 @@ export function GuardrailsForm({
                 Maximum Number of Instalments
               </label>
               <p className="text-xs text-zinc-400 mt-0.5">
-                The most instalments Settle can offer without escalating to you
+                The most instalments Amavi can offer without escalating to you
               </p>
             </div>
             <span className="text-sm font-bold text-blue-400 font-mono px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-lg">
@@ -183,7 +183,7 @@ export function GuardrailsForm({
               Allow Immediate Settlement Discounts
             </label>
             <p className="text-xs text-zinc-400 mt-0.5">
-              Permit Settle to offer a discount if client clears the invoice within 48 hours
+              Permit Amavi to offer a discount if client clears the invoice within 48 hours
             </p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">

@@ -72,7 +72,7 @@ export default async function DevEmailPage() {
     <div style={{ fontFamily: "monospace", padding: "1.5rem", maxWidth: "1200px", margin: "0 auto", color: "#1e293b", fontSize: "13px" }}>
       <div style={{ marginBottom: "1.5rem", borderBottom: "1px solid #e2e8f0", paddingBottom: "1rem" }}>
         <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: "0 0 0.5rem 0", color: "#0f172a" }}>
-          📬 Settle Email Channel Debugger &amp; Audit Log
+          📬 Amavi Email Channel Debugger &amp; Audit Log
         </h1>
         <p style={{ margin: 0, color: "#64748b" }}>
           Channel Status:{" "}

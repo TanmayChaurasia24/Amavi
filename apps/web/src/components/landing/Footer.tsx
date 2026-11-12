@@ -49,7 +49,7 @@ export default function Footer() {
                 S
               </div>
               <span style={{ fontWeight: "700", fontSize: "17px", color: "#f4f4f5", letterSpacing: "-0.02em" }}>
-                Settle
+                Amavi
               </span>
             </div>
             <p style={{ fontSize: "13px", color: "rgba(244,244,245,0.4)", lineHeight: "1.6", maxWidth: "280px", marginBottom: "20px" }}>
@@ -177,7 +177,7 @@ export default function Footer() {
           }}
         >
           <span style={{ fontSize: "12px", color: "rgba(244,244,245,0.3)" }}>
-            © {year} Settle. MIT licence. Built for the PayPal &ldquo;Build What&rsquo;s Next with PayPal and AI&rdquo; hackathon.
+            © {year} Amavi. MIT licence. Built for the PayPal &ldquo;Build What&rsquo;s Next with PayPal and AI&rdquo; hackathon.
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
             <span style={{ fontSize: "12px", color: "rgba(244,244,245,0.25)" }}>Powered by</span>

@@ -9,10 +9,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Settle — AI Collections Agent for Freelancers",
+  title: "Amavi — AI Collections Agent for Freelancers",
   description:
-    "Settle resolves overdue invoices using AI and PayPal. Set your guardrails once, let Settle negotiate and create payment plans automatically.",
-  metadataBase: new URL("https://settle.app"),
+    "Amavi resolves overdue invoices using AI and PayPal. Set your guardrails once, let Amavi negotiate and create payment plans automatically.",
+  metadataBase: new URL("https://amavi.app"),
 };
 
 export default function RootLayout({

@@ -4,16 +4,16 @@ import { useState } from "react";
 
 const FAQS = [
   {
-    q: "Does my client need to create a Settle account?",
-    a: "No. Settle sends the client a standard PayPal payment link. They pay through PayPal as usual — no account or signup required on their end.",
+    q: "Does my client need to create a Amavi account?",
+    a: "No. Amavi sends the client a standard PayPal payment link. They pay through PayPal as usual — no account or signup required on their end.",
   },
   {
-    q: "Can Settle give a discount without my approval?",
+    q: "Can Amavi give a discount without my approval?",
     a: "Only if you explicitly allow it. The max_discount guardrail defaults to 0%. Any proposal for a discount above that limit creates an escalation ticket and waits for your explicit approval before anything happens.",
   },
   {
     q: "Does PayPal support native instalment schedules?",
-    a: "Not through the Invoicing API. Settle simulates instalment plans by enabling partial payment and setting a minimum_amount_due (the deposit) in PayPal. Our database tracks the full plan and advances it as each payment arrives via webhook.",
+    a: "Not through the Invoicing API. Amavi simulates instalment plans by enabling partial payment and setting a minimum_amount_due (the deposit) in PayPal. Our database tracks the full plan and advances it as each payment arrives via webhook.",
   },
   {
     q: "What if the client tries to manipulate the AI?",
@@ -21,18 +21,18 @@ const FAQS = [
   },
   {
     q: "What happens when the client misses an instalment?",
-    a: "Settle automatically sends a PayPal reminder and logs the missed payment in the audit trail. If you've enabled escalation on missed instalments, it creates an approval ticket. You decide the next step — another reminder, a new plan, or escalation to collections.",
+    a: "Amavi automatically sends a PayPal reminder and logs the missed payment in the audit trail. If you've enabled escalation on missed instalments, it creates an approval ticket. You decide the next step — another reminder, a new plan, or escalation to collections.",
   },
   {
     q: "Is my PayPal data secure?",
-    a: "Settle uses PayPal's official OAuth 2.0 REST API with sandbox isolation. We never store your PayPal Client Secret in the database — only in server-side environment variables. Webhook authenticity is verified using PayPal's signature verification API on every event.",
+    a: "Amavi uses PayPal's official OAuth 2.0 REST API with sandbox isolation. We never store your PayPal Client Secret in the database — only in server-side environment variables. Webhook authenticity is verified using PayPal's signature verification API on every event.",
   },
   {
-    q: "Which PayPal products does Settle use?",
-    a: "Settle uses the PayPal Invoicing REST API (v2/invoicing/invoices), the webhook event delivery system, the verify-webhook-signature endpoint, and the PayPal Agent Toolkit for Vercel AI SDK.",
+    q: "Which PayPal products does Amavi use?",
+    a: "Amavi uses the PayPal Invoicing REST API (v2/invoicing/invoices), the webhook event delivery system, the verify-webhook-signature endpoint, and the PayPal Agent Toolkit for Vercel AI SDK.",
   },
   {
-    q: "Can I use Settle with live PayPal (not just sandbox)?",
+    q: "Can I use Amavi with live PayPal (not just sandbox)?",
     a: "Sandbox is required during beta. Live PayPal support is planned for the Pro tier at general availability. The architecture is already designed for it — changing PAYPAL_ENVIRONMENT to LIVE in your env is all that changes.",
   },
 ];

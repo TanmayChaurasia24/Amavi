@@ -237,7 +237,7 @@ export default function OnboardingPage() {
             </div>
           </div>
           <span className="text-lg font-bold tracking-tight text-white font-sans">
-            Settle
+            Amavi
           </span>
         </Link>
 
@@ -293,7 +293,7 @@ export default function OnboardingPage() {
               </div>
               <span className="text-[11px] text-zinc-400 sm:text-right max-w-xs">
                 {paypalInfo.isPaypal
-                  ? "We use this to create your account. This doesn't give Settle access to your PayPal funds."
+                  ? "We use this to create your account. This doesn't give Amavi access to your PayPal funds."
                   : "We use this profile for client collection notices and approval requests."}
               </span>
             </div>
@@ -400,7 +400,7 @@ export default function OnboardingPage() {
                 Set your rules
               </h2>
               <p className="text-xs text-zinc-400">
-                Settle only acts inside these limits. You can change them anytime in Settings.
+                Amavi only acts inside these limits. You can change them anytime in Settings.
               </p>
             </div>
 
@@ -443,7 +443,7 @@ export default function OnboardingPage() {
           <form onSubmit={handleFinalSubmit} className="mt-6 space-y-6">
             <div className="space-y-1">
               <h2 className="text-xl font-bold text-white tracking-tight">
-                How Settle should sound
+                How Amavi should sound
               </h2>
               <p className="text-xs text-zinc-400">
                 Choose the communication tone for payment reminders and client settlement replies.
@@ -538,7 +538,7 @@ export default function OnboardingPage() {
                 className="w-full px-3.5 py-2.5 bg-[#08090d] border border-[#222533] rounded-xl text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-sans resize-none"
               />
               <p className="text-[11px] text-zinc-500">
-                Helps Settle write replies that sound like you.
+                Helps Amavi write replies that sound like you.
               </p>
             </div>
 

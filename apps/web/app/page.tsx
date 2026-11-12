@@ -11,13 +11,13 @@ import Footer from "@/components/landing/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Settle — AI Collections Agent for Freelancers | PayPal-native payment plans",
+  title: "Amavi — AI Collections Agent for Freelancers | PayPal-native payment plans",
   description:
-    "Settle reads client replies to overdue invoices, offers an instalment plan inside your rules, and sets it up in PayPal automatically. Stop chasing. Start settling.",
+    "Amavi reads client replies to overdue invoices, offers an instalment plan inside your rules, and sets it up in PayPal automatically. Stop chasing. Start settling.",
   openGraph: {
-    title: "Settle — AI Collections Agent for Freelancers",
+    title: "Amavi — AI Collections Agent for Freelancers",
     description:
-      "Stop chasing late invoices. Settle resolves overdue payments automatically using AI and PayPal — inside owner-set guardrails.",
+      "Stop chasing late invoices. Amavi resolves overdue payments automatically using AI and PayPal — inside owner-set guardrails.",
     type: "website",
   },
 };

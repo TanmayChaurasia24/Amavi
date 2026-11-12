@@ -35,7 +35,7 @@ async function main() {
       totalAmountCents: 100_000, // $1,000.00
       currency: "USD",
       dueDateStr: yesterday,
-      note: "Due on receipt. Created by Settle verification script.",
+      note: "Due on receipt. Created by Amavi verification script.",
     });
 
     invoiceId = draft.id;

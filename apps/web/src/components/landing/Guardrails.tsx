@@ -26,7 +26,7 @@ const GUARDRAILS = [
   {
     id: "max_instalments",
     label: "Maximum number of instalments",
-    description: "The most instalments Settle can offer without escalating to you.",
+    description: "The most instalments Amavi can offer without escalating to you.",
     unit: "",
     default: 3,
     min: 1,
@@ -36,7 +36,7 @@ const GUARDRAILS = [
   {
     id: "max_discount",
     label: "Maximum discount allowed",
-    description: "Settle can offer up to this % discount autonomously. Anything more creates an approval ticket.",
+    description: "Amavi can offer up to this % discount autonomously. Anything more creates an approval ticket.",
     unit: "%",
     default: 0,
     min: 0,

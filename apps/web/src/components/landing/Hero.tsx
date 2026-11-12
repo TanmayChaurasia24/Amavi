@@ -11,7 +11,7 @@ const CLIENT_MESSAGES = [
   "I'll send $500 now, is that okay?",
 ];
 
-const AGENT_REPLY = `Sure — here's a plan that works within my client's terms:\n\n• Deposit: $300 today (30% upfront ✓)\n• Remaining $700 in 2 monthly instalments\n• Total duration: 60 days ✓\n\nPayPal link: pay.paypal.com/settle/INV-0042`;
+const AGENT_REPLY = `Sure — here's a plan that works within my client's terms:\n\n• Deposit: $300 today (30% upfront ✓)\n• Remaining $700 in 2 monthly instalments\n• Total duration: 60 days ✓\n\nPayPal link: pay.paypal.com/invoice/INV-0042`;
 
 function TypingText({ text, speed = 28 }: { text: string; speed?: number }) {
   const [displayed, setDisplayed] = useState("");
@@ -122,7 +122,7 @@ function HeroDemo() {
           ))}
         </div>
         <span style={{ fontSize: "11px", color: "rgba(244,244,245,0.4)", marginLeft: "8px", fontFamily: "monospace" }}>
-          settle — invoice INV-0042 · Meridian Design Co.
+          amavi — invoice INV-0042 · Meridian Design Co.
         </span>
       </div>
 
@@ -362,7 +362,7 @@ export default function Hero() {
             marginBottom: "40px",
           }}
         >
-          Settle reads client replies to overdue invoices, offers a payment plan inside your rules, and sets it up in PayPal — automatically. You stay in control; it does the legwork.
+          Amavi reads client replies to overdue invoices, offers a payment plan inside your rules, and sets it up in PayPal — automatically. You stay in control; it does the legwork.
         </p>
 
         {/* CTAs */}

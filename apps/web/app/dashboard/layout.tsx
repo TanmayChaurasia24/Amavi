@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DashboardNav } from "@/components/dashboard-nav";
 
 export const metadata: Metadata = {
-  title: "Settle | AI Collections Agent for PayPal",
+  title: "Amavi | AI Collections Agent for PayPal",
   description:
     "Autonomous settlement and installment negotiation engine for overdue PayPal invoices",
 };

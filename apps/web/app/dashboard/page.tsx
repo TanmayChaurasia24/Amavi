@@ -436,9 +436,9 @@ export default function DashboardPage() {
           <div className="flex items-center gap-3">
             <span className="text-xl">🎉</span>
             <div>
-              <p className="font-semibold text-white text-sm">Welcome to Settle! Your onboarding is complete.</p>
+              <p className="font-semibold text-white text-sm">Welcome to Amavi! Your onboarding is complete.</p>
               <p className="text-xs text-emerald-300/80">
-                Your guardrails are active. When clients reply to overdue invoices, Settle will negotiate payment plans within your rules.
+                Your guardrails are active. When clients reply to overdue invoices, Amavi will negotiate payment plans within your rules.
               </p>
             </div>
           </div>

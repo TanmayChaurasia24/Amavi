@@ -37,11 +37,11 @@ const envSchema = z.object({
   INBOUND_EMAIL_DOMAIN: z
     .string()
     .optional()
-    .default("inbound.settle.app"),
+    .default("inbound.amavi.app"),
   EMAIL_FROM: z
     .string()
     .optional()
-    .default("Settle Collections <notifications@settle.app>"),
+    .default("Amavi Collections <notifications@amavi.app>"),
   EMAIL_CHANNEL_ENABLED: z
     .string()
     .optional()

@@ -420,7 +420,7 @@ export default function SettingsPage() {
               Communication Voice & Tone
             </h2>
             <p className="text-xs text-zinc-400 mt-0.5">
-              Configure how Settle drafts payment reminders and replies to your clients.
+              Configure how Amavi drafts payment reminders and replies to your clients.
             </p>
           </div>
 

@@ -60,14 +60,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       }
     }
 
-    // Also claim any previously unowned invoices for the logged-in owner
-    if (ownerId) {
-      await db
-        .update(invoices)
-        .set({ ownerId })
-        .where(isNull(invoices.ownerId));
-    }
-
     return NextResponse.json({ synced, count: synced, invoices: results });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);

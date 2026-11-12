@@ -19,7 +19,7 @@ const invoiceIdArg = args
   ?.split("=")[1];
 
 async function main() {
-  console.log("\n🔄 Settle — Sync from PayPal\n");
+  console.log("\n🔄 Amavi — Sync from PayPal\n");
 
   if (invoiceIdArg) {
     console.log(`Syncing single invoice: ${invoiceIdArg}`);

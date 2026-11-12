@@ -280,15 +280,48 @@ export async function handleClientMessage(
         executionTimeMs: Date.now() - startTime,
       };
     } else {
+      // Preserve the client's exact requested deposit (not the guardrail-computed one).
+      // This is crucial so that if the owner manually approves, the plan is built
+      // using what the CLIENT actually asked for, not the guardrail minimum.
+      const clientRequestedDepositCents =
+        classification.proposal.depositCents ?? evaluation.depositCents;
+
+      // Build the balance / schedule numbers based on what the client asked
+      const balanceCents = Math.max(0, invoice.totalCents - invoice.amountPaidCents);
+      const remainingAfterDeposit = Math.max(0, balanceCents - clientRequestedDepositCents);
+      const instCount = Math.max(1, evaluation.instalmentCount);
+      const perInstalment = instCount > 0 ? Math.round(remainingAfterDeposit / instCount) : 0;
+      const stepDays = Math.round(evaluation.durationDays / instCount);
+
+      // Rich proposed plan description so the freelancer knows exactly what will happen
+      const planLines = [`Deposit: $${(clientRequestedDepositCents / 100).toFixed(2)} (due now)`];
+      for (let i = 1; i <= instCount; i++) {
+        const isLast = i === instCount;
+        const amt = isLast ? (remainingAfterDeposit - perInstalment * (instCount - 1)) : perInstalment;
+        planLines.push(`Instalment ${i}: $${(amt / 100).toFixed(2)} (due in ${i * stepDays} days)`);
+      }
+
+      const richSummary =
+        `Client requested: $${(clientRequestedDepositCents / 100).toFixed(2)} deposit ` +
+        `out of $${(balanceCents / 100).toFixed(2)} balance over ${evaluation.durationDays} days ` +
+        `(${instCount} instalment${instCount !== 1 ? "s" : ""} after deposit).\n\n` +
+        `Proposed plan if you APPROVE:\n${planLines.join("\n")}\n\n` +
+        `Guardrail violations: ${evaluation.violations.join("; ") || "None — escalated due to auto-approve threshold."}\n\n` +
+        `Client's original message: "${classification.clientSummary}"`;
+
       const ticket = await escalateToOwner(
         invoiceId,
         evaluation.reason,
-        classification.clientSummary,
+        richSummary,
         {
-          requestedDepositCents: evaluation.depositCents,
-          requestedDepositPct: evaluation.depositPct,
+          // Client's exact ask — used when owner approves to build the plan
+          clientRequestedDepositCents,
+          clientRequestedDepositPct: classification.proposal.depositPct,
+          // Guardrail-computed values kept for reference / audit
+          guardrailDepositCents: evaluation.depositCents,
           instalmentCount: evaluation.instalmentCount,
           durationDays: evaluation.durationDays,
+          frequency: "MONTHLY",
           violations: evaluation.violations,
         }
       );
@@ -357,7 +390,7 @@ export async function handleClientMessage(
     .values({
       invoiceId,
       direction: "OUTBOUND",
-      sender: "Settle AI Agent",
+      sender: "Amavi AI Agent",
       content: replyText,
       intent: "OTHER",
       channel,

@@ -101,7 +101,7 @@ export default function FinalCta() {
               lineHeight: "1.6",
             }}
           >
-            Connect your PayPal sandbox, set your rules once, and let Settle handle the awkward conversations.
+            Connect your PayPal sandbox, set your rules once, and let Amavi handle the awkward conversations.
           </p>
 
           <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap" }}>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Onboarding Setup — Settle",
+  title: "Onboarding Setup — Amavi",
   description: "Configure your freelance collections agent and guardrails.",
 };
 
