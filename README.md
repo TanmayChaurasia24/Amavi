@@ -22,7 +22,10 @@ Freelancers and boutique agencies lose billions every year to overdue invoices. 
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ System Architecture & Visual Workflows
+
+### 1. Overall System Architecture
+High-level overview of Amavi's platform topology across Client Ingestion, Next.js 15 Agent Core, Neon Postgres, and PayPal Sandbox Invoicing.
 
 ```mermaid
 flowchart TD
@@ -96,6 +99,252 @@ flowchart TD
     Store --> DRAWER
     Store --> APPR_UI
     APPR_UI -->|"Owner Approval Override"| T_PLAN
+```
+
+---
+
+### 2. Payment Plan & Sub-Invoice Reconciliation Flow
+How multi-leg PayPal instalment payments are verified, mapped to parent invoices, and reconciled in real time.
+
+```mermaid
+sequenceDiagram
+    participant C as 👤 Client
+    participant PP as 💳 PayPal Sandbox
+    participant WH as ⚡ Webhook Handler
+    participant RC as 🔄 Reconciliation Engine
+    participant DB as 🗄️ Postgres Database
+
+    Note over C,DB: Freelancer issues $1,400 invoice. Amavi activates autonomous payment plan.
+
+    C->>PP: Pays $400 sub-invoice (Leg #1: Deposit)
+    PP->>WH: Event: PAYMENT.CAPTURE.COMPLETED
+    WH->>WH: Verify cryptographic webhook signature & check idempotency
+
+    WH->>RC: reconcilePaymentWithPlans(paypalInvoiceId, 40000)
+    RC->>DB: Query plan_instalments where paypal_invoice_id = sub-invoice
+    DB-->>RC: Found Instalment #1 (Deposit leg)
+
+    RC->>DB: UPDATE plan_instalments SET status='PAID', paid_at=NOW()
+    RC->>DB: Calculate SUM of all settled legs in plan ($400)
+    RC->>DB: UPDATE invoices SET amount_paid_cents=40000, status='PARTIALLY_PAID'
+    RC->>DB: INSERT INTO agent_logs (Audit trail entry)
+
+    Note over DB: Parent invoice: $1,400 total, $400 paid, $1,000 remaining due.
+
+    C->>PP: Later: Pays $500 sub-invoice (Leg #2)
+    PP->>WH: Event: PAYMENT.CAPTURE.COMPLETED
+    WH->>RC: reconcilePaymentWithPlans(subInvoice2, 50000)
+    RC->>DB: Update Leg #2 to PAID. Cumulative sum = $900 paid.
+    RC->>DB: UPDATE invoices: amount_paid_cents=90000, status='PARTIALLY_PAID'
+
+    Note over DB: Parent invoice: $1,400 total, $900 paid, $500 remaining due.
+```
+
+---
+
+### 3. Human-in-the-Loop Approval & Policy Override
+How out-of-bounds proposals are halted, previewed to the freelancer, and executed with human priority.
+
+```mermaid
+flowchart TD
+    CM["📨 Client Message\n'I can only pay $500 now\nout of $2,400'"]
+
+    CLS["🤖 Claude classifies intent\n→ REQUEST_INSTALMENT\n→ depositCents: 50000"]
+
+    VAL["⚖️ Server-Side Guardrail Check\nMin deposit: 30% = $720\nClient asked: $500 = 20.8%\n❌ VIOLATION"]
+
+    ESC["📋 Escalate to Owner\nCreate approval_queue ticket"]
+
+    PLAN["📄 Rich Proposal Preview in UI\n─────────────────────\nDeposit: $500.00 (due now)\nInstalment 1: $950.00 (in 30d)\nInstalment 2: $950.00 (in 60d)\n─────────────────────\nViolation: 20.8% < 30% min deposit"]
+
+    DASH["🖥️ Freelancer Approvals Dashboard"]
+
+    DEC{{"Freelancer Choice"}}
+
+    APP["✅ APPROVE\nFreelancer overrides policy"]
+    REJ["❌ REJECT\nFreelancer declines offer"]
+
+    EXEC["⚡ Execute Plan with\nclientRequestedDepositCents=$500\nisOwnerOverride=true\n(Guardrails Bypassed)"]
+
+    CREATE["🧾 createPaymentPlan\nDeposit invoice: $500\n2 instalments: $950 each\nSent via PayPal"]
+
+    LOG1["📒 agent_logs: OWNER_APPROVED"]
+    LOG2["📒 agent_logs: OWNER_REJECTED"]
+    NOACT["Status unchanged;\nManual follow-up"]
+
+    CM --> CLS --> VAL --> ESC
+    ESC --> PLAN --> DASH --> DEC
+    DEC -->|Approve| APP --> EXEC --> CREATE --> LOG1
+    DEC -->|Reject| REJ --> NOACT --> LOG2
+
+    style VAL fill:#7f1d1d,color:#fff
+    style APP fill:#14532d,color:#fff
+    style REJ fill:#7f1d1d,color:#fff
+    style EXEC fill:#14532d,color:#fff
+    style PLAN fill:#1e3a5f,color:#fff
+```
+
+---
+
+### 4. Autonomous Agent Decision Pipeline
+The 6 decision pathways traversed by every inbound debtor communication.
+
+```mermaid
+flowchart TD
+    IN["📨 Inbound Client Message"]
+
+    INJ{{"Prompt\nInjection?"}}
+    DISP{{"Intent:\nDISPUTE?"}}
+    HARD{{"Intent:\nHARDSHIP?"}}
+    INST{{"Intent:\nREQUEST_INSTALMENT?"}}
+    PROM{{"Intent:\nPROMISE_TO_PAY?"}}
+
+    BLOCK["🚨 BLOCKED (Regex Intercept)\nEscalate security alert to owner\nRefuse LLM override"]
+
+    ESCDISP["⚖️ Mark Invoice DISPUTED\nEscalate deliverable conflict"]
+    ESCHARD["🤝 Escalate Hardship Case\nOwner offers compassionate terms"]
+
+    GVAL["⚖️ Deterministic Guardrail Check\n(Deposit %, Duration, Discount)"]
+
+    PASS{{"Complies with\nguardrails?"}}
+
+    AUTOPLAN["✅ AUTO-APPROVE\ncreatePaymentPlan in PayPal\nReturn deposit payment link"]
+
+    ESCQ["📋 Approval Queue Ticket\nOwner gets rich schedule preview\nHuman sign-off required"]
+
+    OWNDEC{{"Owner Decision?"}}
+
+    EXPLAN["⚡ Materialize Plan in PayPal\nclientRequestedDeposit honored"]
+    REJECT["❌ Request Rejected\nNo PayPal action"]
+
+    PROMISE["📅 Record Promise Date\nPause reminder cadence until date"]
+
+    OTHER["💬 Clarification Requested\nPolite inquiry sent to client"]
+
+    IN --> INJ
+    INJ -->|"Yes"| BLOCK
+    INJ -->|"No"| DISP
+    DISP -->|"Yes"| ESCDISP
+    DISP -->|"No"| HARD
+    HARD -->|"Yes"| ESCHARD
+    HARD -->|"No"| INST
+    INST -->|"Yes"| GVAL --> PASS
+    PASS -->|"Yes"| AUTOPLAN
+    PASS -->|"No / High Balance"| ESCQ --> OWNDEC
+    OWNDEC -->|"APPROVE"| EXPLAN
+    OWNDEC -->|"REJECT"| REJECT
+    INST -->|"No"| PROM
+    PROM -->|"Yes"| PROMISE
+    PROM -->|"No"| OTHER
+
+    style BLOCK fill:#7f1d1d,color:#fff
+    style AUTOPLAN fill:#14532d,color:#fff
+    style EXPLAN fill:#14532d,color:#fff
+    style REJECT fill:#7f1d1d,color:#fff
+    style ESCQ fill:#1e3a5f,color:#fff
+    style ESCDISP fill:#78350f,color:#fff
+    style ESCHARD fill:#78350f,color:#fff
+```
+
+---
+
+### 5. Database Schema & Entity Relationships
+Relational architecture in Neon Postgres managed through Drizzle ORM.
+
+```mermaid
+erDiagram
+    owners ||--o{ clients : "manages"
+    owners ||--o{ invoices : "owns"
+    owners ||--o{ guardrails : "configures"
+    owners ||--o{ approval_queue : "decides"
+    clients ||--o{ invoices : "billed for"
+    invoices ||--o{ payment_plans : "has"
+    payment_plans ||--o{ plan_instalments : "contains"
+    invoices ||--o{ messages : "receives"
+    invoices ||--o{ approval_queue : "escalates to"
+    invoices ||--o{ agent_logs : "audited in"
+
+    owners {
+        text id PK
+        text email
+        text name
+        text display_name
+        boolean is_demo
+    }
+
+    clients {
+        text id PK
+        text owner_id FK
+        text name
+        text email
+        int past_late_count
+        int avg_days_late
+    }
+
+    invoices {
+        text id PK
+        text owner_id FK
+        text client_id FK
+        text paypal_invoice_id UK
+        int total_cents
+        int amount_paid_cents
+        text status
+        int risk_score
+        text recipient_view_url
+        text reply_token UK
+    }
+
+    payment_plans {
+        text id PK
+        text invoice_id FK
+        int total_cents
+        int deposit_cents
+        int instalment_count
+        text frequency
+        text status
+    }
+
+    plan_instalments {
+        text id PK
+        text plan_id FK
+        int instalment_number
+        int amount_cents
+        text due_date
+        text paypal_invoice_id
+        text status
+        timestamp paid_at
+    }
+
+    approval_queue {
+        text id PK
+        text invoice_id FK
+        text owner_id FK
+        text proposal_summary
+        text reason
+        text status
+        jsonb action_payload
+    }
+
+    agent_logs {
+        text id PK
+        text invoice_id FK
+        text event_type
+        text reasoning
+        jsonb input_payload
+        jsonb output_payload
+        int execution_time_ms
+    }
+
+    guardrails {
+        text id PK
+        text owner_id FK
+        int min_deposit_pct
+        int max_plan_duration_days
+        int max_discount_pct
+        int auto_approve_threshold_cents
+        boolean escalate_on_dispute
+        boolean escalate_on_hardship
+    }
 ```
 
 ---
